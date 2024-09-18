@@ -155,8 +155,8 @@ ul {
   border-radius: 4px;
   border: none;
   box-shadow: 0 0 10px 0 #181817;
-  max-width: 50rem;
-  width: 100%;
+  /* max-width: 50rem;
+  width: 100%; */
 }
 
 .modal h2,
