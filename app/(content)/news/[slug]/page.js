@@ -1,15 +1,20 @@
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { getNewsItem } from "@/lib/news";
 
-import { DUMMY_NEWS } from '@/dummy-news';
-
-export default function NewsDetailPage({ params }) {
+export default async function NewsDetailPage({ params }) {
   const newsSlug = params.slug;
-  const newsItem = DUMMY_NEWS.find((newsItem) => newsItem.slug === newsSlug);
+  const newsItem = await getNewsItem(newsSlug);
 
   if (!newsItem) {
     notFound();
   }
+
+  const formattedDate = new Intl.DateTimeFormat("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(newsItem.date);
 
   return (
     <article className="news-article">
@@ -18,7 +23,7 @@ export default function NewsDetailPage({ params }) {
           <img src={`/images/news/${newsItem.image}`} alt={newsItem.title} />
         </Link>
         <h1>{newsItem.title}</h1>
-        <time dateTime={newsItem.date}>{newsItem.date}</time>
+        <time dateTime={newsItem.date.toISOString()}>{formattedDate}</time>
       </header>
       <p>{newsItem.content}</p>
     </article>
